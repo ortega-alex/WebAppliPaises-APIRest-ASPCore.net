@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,7 @@ namespace WebAppliPaises.Controllers
 {
     [Produces("application/json")]
     [Route("api/Pais/{PaisId}/Provincia")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProvinciaController : Controller
     {
         private readonly AplicationDbContext context;
@@ -54,7 +57,7 @@ namespace WebAppliPaises.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update([FromBody] , Provincia provincia , int id)
+        public IActionResult Update([FromBody] Provincia provincia , int id)
         {
             if(provincia.Id != id)
             {
