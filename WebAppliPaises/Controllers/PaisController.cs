@@ -25,9 +25,25 @@ namespace WebAppliPaises.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Pais> Get()
+        public IActionResult Get()
         {
-            return context.Paises.ToList();
+            //claims del usuario
+            var claims = User.Claims.ToList();
+
+            var esAdmin = claims.Any(x => x.Type == "Admin" && x.Value == "Y");
+            if (esAdmin)
+            {
+                return Ok(context.Paises.ToList());
+            } else
+            {
+                var pais = claims.FirstOrDefault(x => x.Type == "Pais");
+                if (pais == null)
+                {
+                    return Unauthorized();
+                }
+                return Ok(context.Paises.Where(x => x.Nombre == pais.Value));
+            }
+           
         }
 
         [HttpGet("{id}", Name = "paisCreado")]

@@ -83,7 +83,10 @@ namespace WebAppliPaises.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName , userInfo.Email),
                 new Claim("miValor" , "Lo que yo quiero"),
-                new Claim(JwtRegisteredClaimNames.Jti , Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti , Guid.NewGuid().ToString()),
+                /*claims nuevos*/
+                new Claim("Pais" , "Argentina"),
+               // new Claim("Admin" , "Y")
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Llave_super_secreta"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
